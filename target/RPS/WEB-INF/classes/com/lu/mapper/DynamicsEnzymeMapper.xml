@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lu.mapper.DynamicsEnzymeMapper">
+    <resultMap id="DEMap" type="DynamicsEnzyme">
+        <result column="organism" property="sourceOrganismName"/>
+        <result column="tax_id" property="sourceOrganismTaxId"/>
+    </resultMap>
+    <select id="getALlDynamicsEnzymeByEcNumber" parameterType="string" resultMap="DEMap">
+        select ec_number, km, organism, tax_id
+        from km_min
+        where ec_number = #{ecNumber}
+    </select>
+</mapper>
