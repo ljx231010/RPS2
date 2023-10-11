@@ -9,7 +9,7 @@
 - **Third**, for each host organism, RPS can display the reaction information of the pathway, the enzyme, and determines whether each reaction is an endogenous reaction.
 - **Finally**, recommend potential foreign enzymes for foreign reaction, provides three ways to do this: by phylogenetic distance, by Km value, or by combination of phylogenetic distance and Km value.
 
-# software environment used
+# Software environment used
 
 - Java: JDK1.8.0_352
 - &IDE: IDEA2020.3
@@ -35,7 +35,7 @@
 
 1.Download the data.rar file and unzip it to the d:/data directory
 
-# use
+# Use
 
 1.Install tomcat.
 
