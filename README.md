@@ -33,7 +33,7 @@
 
 #### Local files
 
-1.Download the data.rar file and unzip it to the d:/data directory
+1.Download the `data.rar` file and unzip it to the d:/data directory
 
 # Use
 
