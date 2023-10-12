@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/*")
+//@WebFilter(urlPatterns = "/*")
 public class HostFilter implements Filter {
 
     private static final String[] HOST_LIST = {"biolab.gxu.edu.cn", "localhost:8080"};
