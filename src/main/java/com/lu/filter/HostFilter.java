@@ -9,7 +9,7 @@ import java.io.IOException;
 //@WebFilter(urlPatterns = "/*")
 public class HostFilter implements Filter {
 
-    private static final String[] HOST_LIST = {"biolab.gxu.edu.cn", "localhost:8080"};
+    private static final String[] HOST_LIST = {"biolab.gxu.edu.cn:8080", "localhost:8080"};
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

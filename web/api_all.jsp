@@ -63,7 +63,7 @@
             <td><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0168725" target="_blank">A Method for Finding
                 Metabolic Pathways Using Atomic Group Tracking</a></td>
             <td>
-                <button class="ui button" onclick="window.open('bp_api.jsp')">Search</button>
+                <button class="ui button" onclick="window.open('https://biolab.gxu.edu.cn/BPFinder/index.jsp')">Search</button>
             </td>
         </tr>
         <tr>
@@ -80,7 +80,7 @@
             <td>Atom-group Flux Pathfinder</td>
             <td>Engineer</td>
             <td>
-                <button class="ui button" onclick="window.open('afp_api.jsp')">Search</button>
+                <button class="ui button" onclick="window.open('https://biolab.gxu.edu.cn/AF/index.jsp')">Search</button>
             </td>
         </tr>
         </tbody>
