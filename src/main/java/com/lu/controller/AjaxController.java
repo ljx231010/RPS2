@@ -51,7 +51,7 @@ public class AjaxController {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> rmap = pathService.getReactionIdToName(path);
         String s = mapper.writeValueAsString(rmap);
-        System.out.println(s);
+//        System.out.println(s);
         return s;
     }
 }

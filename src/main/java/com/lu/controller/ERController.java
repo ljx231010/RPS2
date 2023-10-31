@@ -10,7 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +34,17 @@ public class ERController {
     @Qualifier("SpeciesNetworkServiceImpl")
     private SpeciesNetworkService speciesNetworkService;
 
-    @RequestMapping("/reaction/{speciesId}/{path}")
+    @RequestMapping(value = "/reaction/{speciesId}/{path}")
     public String reaction(Model model, @PathVariable("speciesId") String speciesId, @PathVariable("path") String path) throws IOException {
         System.out.println("ERController + reaction");
         System.out.println(speciesId);
         System.out.println(path);
+        Species curSpecies = enzymeService.getSpeciesById(speciesId);
+        if (curSpecies == null || pathService.createCompletePath(path) == null) {
+            return "error/404";
+        }
 
         model.addAttribute("path", path);
-        Species curSpecies = enzymeService.getSpeciesById(speciesId);
         model.addAttribute("curSpecies", curSpecies);
         List<SpeciesReaction> speciesReactions = enzymeService.allReaction(path, speciesId);
         model.addAttribute("speciesReactions", speciesReactions);
@@ -47,17 +54,39 @@ public class ERController {
         for (Message message : deadEndMetabolites) {
             s.append(message.toString()).append("-");
         }
-        String s1 = s.length()>0?s.substring(0, s.length() - 1):s.toString();
+        String s1 = s.length() > 0 ? s.substring(0, s.length() - 1) : s.toString();
         model.addAttribute("deadEndMessage", s1);
         return "reaction_show";
     }
 
-    @RequestMapping("/foreignEnzymeRecommend")
+    @RequestMapping(value = "/foreignEnzymeRecommend")
     public String foreignEnzymeRecommend(Model model, String speciesId, String reactionId, String KMWeight, String disWeight) {
         System.out.println(speciesId);
         System.out.println(reactionId);
         System.out.println("disWeight:" + disWeight);
         System.out.println("KMWeight:" + KMWeight);
+
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert attributes != null;
+        HttpServletRequest request = attributes.getRequest();
+        String referer = request.getHeader("Referer");
+        if (referer == null || !referer.matches(".+/RPS/reaction/[a-zA-z]{3}/C.+"))
+            return "error/405";
+        boolean flag = true;
+        if (speciesId == null || reactionId == null || KMWeight == null || disWeight == null)
+            flag = false;
+        else if (speciesNetworkService.getSpeciesById(speciesId) == null || pathService.getReactionById(reactionId) == null)
+            flag = false;
+        else if (!KMWeight.matches("^-?\\d+(\\.\\d+)?$") || !disWeight.matches("^-?\\d+(\\.\\d+)?$")) {
+            if (Double.parseDouble(KMWeight) > 1 || Double.parseDouble(KMWeight) <= 0)
+                flag = false;
+            else if (Double.parseDouble(disWeight) > 1 || Double.parseDouble(disWeight) <= 0)
+                flag = false;
+        }
+        if (!flag)
+            return "error/404";
+
+
         String speciesName = speciesNetworkService.getSpeciesById(speciesId).getSpeciesName();
         model.addAttribute("speciesName", speciesName);
         List<DistanceEnzyme> distanceEnzymes = enzymeService.enzymeAboutDISOneReaction(reactionId, speciesId);

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,&nbsp; initial-scale=1.0">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.4.1/semantic.min.css">
+		<link rel="stylesheet" href="../static/css/me.css">
+		<link rel="shortcut icon" href="../static/images/favicon.ico" />
+		<title>Introduction</title>
+		<style type="text/css">
+			.p1 {
+				font-size: 20px;
+				line-height: 1cm;
+			}
+			li{
+				font-size: 20px;
+				line-height: 1cm;
+			}
+		</style>
+	</head>
+	<body class="bg1">
+		<nav class="ui inverted attached segment">
+			<div class="ui container">
+				<div class="ui inverted secondary menu">
+					<h2 class="ui teal header item">RPS</h2>
+					<a href="../index.jsp" class="item"><i class="home icon"></i>Recommend</a>
+					<a href="../api_all.jsp" class="item"><i class="archive icon"></i>PathApi</a>
+					<a href="introduction.html" class="active item"><i class="idea icon"></i>Introduction</a>
+					<a href="help.html" class="item"><i class="tags icon"></i>Help</a>
+					<a href="download.html" class="item"><i class="clone icon"></i>Download</a>
+					<a href="contact us.html" class="item"><i class="info icon"></i>Contact us</a>
+				</div>
+			</div>
+		</nav>
+		<br>
+		<br>
+		<br>
+
+		<div class="ui container">
+			<h1 class="ui aligned center orange header"> About RPS </h1>
+			<br>
+			<div class="segment aligned center attached">
+				<p class="p1"><b>RPS</b> is a method where the goal is to recommend expressed
+					host organism for a user-specified pathway and then recommend foreign enzymes for foreign reaction.</p>
+				<p class="p1"><b>RPS</b> consists of four main steps:<br>
+				<ul>
+					<li><b>First</b>,&nbsp;&nbsp; obtain the pathway and weight
+						parameter
+						information input by the user from the web page.<br> </li>
+
+					<li>
+						<b>Second</b>,&nbsp; the scores of pathway under 70
+						candidate host organism are calculated based on the proportion of endogenous reactions,&nbsp; the number of
+						dead
+						end metabolites and score of
+						competing endogenous reactions,&nbsp; and then generate top-ranked candidate host organism.<br>
+					</li>
+					<li>
+						<b>Third</b>,&nbsp;
+						for
+						each host organism,&nbsp; RPS can display the reaction information of the pathway,&nbsp; the enzyme,&nbsp; and
+						determines
+						whether
+						each reaction is an endogenous reaction.<br>
+					</li>
+					<li>
+						<b>Finally</b>,&nbsp;
+						recommend potential foreign enzymes for foreign reaction,&nbsp; provides three ways to do
+						this: by phylogenetic distance,&nbsp; by Km value,&nbsp; or by combination of phylogenetic distance and Km value.
+					</li>
+				</ul>
+				</p>
+			</div>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+	</body>
+	<script src="../static/js/jquery.min.js"></script>
+	<footer class="ui inverted vertical segment">
+		<div class="ui center aligned container">
+			<p class="" style="margin-bottom: 0px">©Guangxi University,&nbsp;
+				Nanning,&nbsp; China</p>
+			<p>College of computer and electronic information . Guangxi
+				University</p>
+		</div>
+	</footer>
+</html>

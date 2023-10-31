@@ -42,22 +42,42 @@ public class PathServiceImpl implements PathService {
         Path newPath = new Path();
         String[] strings = path.split("->");
         for (String s : strings) {
+            if (!s.matches("^C\\d{5}$")&&!s.matches("^R\\d{5}$"))
+                return null;
             if (s.startsWith("C") || s.startsWith("G")) {
                 Compound compound = compoundMapper.getCompoundById(s);
-                if (compound==null)
+                if (compound == null)
                     return null;
                 newPath.getCompoundsOfPath().add(compound);
-            }
-            else if (s.startsWith("R")) {
+            } else if (s.startsWith("R")) {
                 Reaction reaction = reactionMapper.getReactionById(s);
                 if (reaction == null) {
                     return null;
                 }
                 reactionAddEnzymeObject(reaction);
                 newPath.getReactionsOfPath().add(reaction);
-            }
-            else{
+            } else {
                 System.out.println("Path error");
+            }
+        }
+        ArrayList<Reaction> reactionsOfPath = newPath.getReactionsOfPath();
+        for (int i = 0; i < reactionsOfPath.size(); i++) {
+            Reaction reaction = reactionsOfPath.get(i);
+            String c1 = i<newPath.getCompoundsOfPath().size()-1?newPath.getCompoundsOfPath().get(i).getCId():"";
+            String c2 = i+1<=newPath.getCompoundsOfPath().size()-1?newPath.getCompoundsOfPath().get(i + 1).getCId():"";
+            if (!((reaction.getSubstrateId().contains(c1) && reaction.getProductId().contains(c2)) || (reaction.getSubstrateId().contains(c2) && reaction.getProductId().contains(c1)))) {
+                if (!reaction.getEquation().contains(c1)) {
+//                    newPath.addMessage("Compound " + c1 + " does not belong to reaction " + reaction.getRId());
+                    return null;
+                }
+                if (!reaction.getEquation().contains(c2)) {
+//                    newPath.addMessage("Compound " + c2 + " does not belong to reaction " + reaction.getRId());
+                    return null;
+
+                }
+                if ((reaction.getSubstrateId().contains(c1) && reaction.getSubstrateId().contains(c2)) || (reaction.getProductId().contains(c1) && reaction.getProductId().contains(c2)))
+//                    newPath.addMessage("Compound " + c1 + " and Compound " + c2 + " are on the same side of the reaction "+reaction.getRId());
+                    return null;
             }
         }
         return newPath;
@@ -66,7 +86,8 @@ public class PathServiceImpl implements PathService {
 
     public Map<String, Double> r1(Path path) {
         Map<String, Integer> SNmap = new HashMap<>();
-        ArrayList<Reaction> reactionsOfPath = path.getReactionsOfPath();        for (Reaction reaction : reactionsOfPath) {
+        ArrayList<Reaction> reactionsOfPath = path.getReactionsOfPath();
+        for (Reaction reaction : reactionsOfPath) {
             Map<String, Integer> map = new HashMap<>();
             if (reaction.getEcNumber1() == null) {
                 System.out.println(reaction.getRId());
@@ -140,5 +161,10 @@ public class PathServiceImpl implements PathService {
             }
         }
         return map;
+    }
+
+    @Override
+    public Reaction getReactionById(String id) {
+        return reactionMapper.getReactionById(id);
     }
 }

@@ -17,7 +17,8 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
     @Autowired
     private SpeciesMapper speciesMapper;
     public static String[] clusterMetabolites = {"C00001", "C00002", "C00003", "C00004", "C00005", "C00006", "C00007", "C00008", "C00009",
-            "C00010", "C00011", "C00013", "C00015", "C01342", "C00019", "C00020", "C00035", "C00044", "C00080", "C00131"};    public static List<String> clusterMetabolites1 = new ArrayList<String>(Arrays.asList(clusterMetabolites));
+            "C00010", "C00011", "C00013", "C00015", "C01342", "C00019", "C00020", "C00035", "C00044", "C00080", "C00131"};
+    public static List<String> clusterMetabolites1 = new ArrayList<String>(Arrays.asList(clusterMetabolites));
     @Autowired
     private PathMapper pathMapper;
 
@@ -41,8 +42,11 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
         Path completePath = pathService.createCompletePath(path);
         if (completePath == null)
             return null;
-        Map<String, Double> tempScoreMap1 = pathService.r1(completePath);        Map<String, Double> scoreMap1 = dataStandard(tempScoreMap1);
-        Map<String, Double> scoreMap2;        Map<String, Double> tempScoreMap2 = new HashMap<>();        List<String> speciesIdList = speciesMapper.getAllSpeciesId();
+        Map<String, Double> tempScoreMap1 = pathService.r1(completePath);
+        Map<String, Double> scoreMap1 = dataStandard(tempScoreMap1);
+        Map<String, Double> scoreMap2;
+        Map<String, Double> tempScoreMap2 = new HashMap<>();
+        List<String> speciesIdList = speciesMapper.getAllSpeciesId();
         for (int i = 0; i < speciesIdList.size(); i++) {
             String speciesId = speciesIdList.get(i);
             long t1 = System.currentTimeMillis();
@@ -52,7 +56,8 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
             tempScoreMap2.put(speciesId, scoreOfPath);
         }
         scoreMap2 = mreService.dataStandard(tempScoreMap2);
-        Map<String, Double> scoreMap3 = test1(completePath);        Map<String, Double> finalMap = new HashMap<>();
+        Map<String, Double> scoreMap3 = test1(completePath);
+        Map<String, Double> finalMap = new HashMap<>();
         double inOut1 = 0.4;
         double subAndProduct1 = 0.2;
         double compete1 = 0.4;
@@ -85,7 +90,7 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
         return l1;
     }
 
-        @Override
+    @Override
     public SpeciesNetwork1 getArrayFromTxt(String speciesId) throws IOException {
         String fileName = "";
         if (speciesId.equals("prn"))
@@ -94,15 +99,20 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
             fileName = "con1";
         else
             fileName = speciesId;
-        List<String[]> l1 = new ArrayList<>();        List<String[]> l2 = new ArrayList<>();        List<String> ridList = new ArrayList<>();        String baseSrc = "D:/data/network/%s.txt";
+        List<String[]> l1 = new ArrayList<>();
+        List<String[]> l2 = new ArrayList<>();
+        List<String> ridList = new ArrayList<>();
+        String baseSrc = "D:/data/network/%s.txt";
         FileReader fr = new FileReader(String.format(baseSrc, fileName));
         BufferedReader br = new BufferedReader(fr);
         String s = "";
         String line = null;
-        String[] cids = br.readLine().split(",");        while ((line = br.readLine()) != null) {
+        String[] cids = br.readLine().split(",");
+        while ((line = br.readLine()) != null) {
             String[] s1 = line.split(" ");
             ridList.add(s1[0]);
-            String d1 = s1[1];            String p1 = s1[2];
+            String d1 = s1[1];
+            String p1 = s1[2];
             l1.add(d1.split(","));
             l2.add(p1.split(","));
         }
@@ -121,14 +131,22 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
     }
 
     public List<Message> substrateAndProduct1(Path completePath, SpeciesNetwork1 speciesNetwork) throws IOException {
-        List<Reaction> reactionsOfPath = completePath.getReactionsOfPath();        ArrayList<Compound> compoundsOfPath = completePath.getCompoundsOfPath();        String finalProductId = compoundsOfPath.get(compoundsOfPath.size() - 1).getCId();        List<List<String>> lists = get2(completePath);        Map<String, Integer> substrateOfPreReaction1 = new HashMap<>();
-        Map<String, Integer> subsOfReaction = new HashMap<>();        Map<String, Integer> productOfPreReaction1 = new HashMap<>();        List<String> message = new ArrayList<>();        List<Message> messageList = new ArrayList<>();
+        List<Reaction> reactionsOfPath = completePath.getReactionsOfPath();
+        ArrayList<Compound> compoundsOfPath = completePath.getCompoundsOfPath();
+        String finalProductId = compoundsOfPath.get(compoundsOfPath.size() - 1).getCId();
+        List<List<String>> lists = get2(completePath);
+        Map<String, Integer> substrateOfPreReaction1 = new HashMap<>();
+        Map<String, Integer> subsOfReaction = new HashMap<>();
+        Map<String, Integer> productOfPreReaction1 = new HashMap<>();
+        List<String> message = new ArrayList<>();
+        List<Message> messageList = new ArrayList<>();
         for (int i = 0; i < reactionsOfPath.size(); i++) {
             Reaction currentReaction = reactionsOfPath.get(i);
             Compound currentsubCompound = compoundsOfPath.get(i);
             List<String> l1 = reactionsOfPath.get(i).getSubstrateId();
             List<String> l2 = reactionsOfPath.get(i).getProductId();
-            List<String> substratesId;            List<String> productsId;
+            List<String> substratesId;
+            List<String> productsId;
             if (!l1.contains(currentsubCompound.getCId())) {
                 substratesId = l2;
                 productsId = l1;
@@ -186,13 +204,15 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
                     messageList.add(new Message(s, currentReaction.getRId(), "Product judgment double none"));
                     System.out.println("--------------");
                 }
-            }            for (String pid : substratesId) {
+            }
+            for (String pid : substratesId) {
                 subsOfReaction.merge(pid, 1, Integer::sum);
             }
-        }        return messageList;
+        }
+        return messageList;
     }
 
-        public Map<String, Double> dataStandard(Map<String, Double> map) {
+    public Map<String, Double> dataStandard(Map<String, Double> map) {
         double max = 0;
         double min = 0;
         for (String key : map.keySet()) {
@@ -207,7 +227,8 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
                 min = x;
         }
         Map<String, Double> newMap = new HashMap<>();
-        DecimalFormat df = new DecimalFormat("0.0000");        double newValue = 0;
+        DecimalFormat df = new DecimalFormat("0.0000");
+        double newValue = 0;
         for (String key : map.keySet()) {
             newValue = (map.get(key) - min) / (max - min);
             if (Double.isNaN(newValue))
@@ -218,8 +239,10 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
         return newMap;
     }
 
-        public List<List<String>> get1(Path path) {
-        List<String> substrateList = new ArrayList<>();        List<String> productList = new ArrayList<>();        ArrayList<Reaction> reactionsOfPath = path.getReactionsOfPath();
+    public List<List<String>> get1(Path path) {
+        List<String> substrateList = new ArrayList<>();
+        List<String> productList = new ArrayList<>();
+        ArrayList<Reaction> reactionsOfPath = path.getReactionsOfPath();
         ArrayList<Compound> compoundsOfPath = path.getCompoundsOfPath();
         for (int i = 0; i < reactionsOfPath.size(); i++) {
             Reaction reaction = reactionsOfPath.get(i);
@@ -241,7 +264,7 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
         return ll;
     }
 
-        public List<List<String>> get2(Path path) {
+    public List<List<String>> get2(Path path) {
         List<List<String>> lists = get1(path);
         Set<String> s1 = new TreeSet<>(lists.get(0));
         lists.get(0).clear();
@@ -279,7 +302,7 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
 
     }
 
-        public Map<String, Double> test1(Path completePath) throws IOException {
+    public Map<String, Double> test1(Path completePath) throws IOException {
         String path = "C00024->R00351->C00158->R01324->C00311->R00267->C00026->R09784->C06547";
         List<String> speciesId = speciesMapper.getAllSpeciesId();
         Map<String, List<Message>> map = new HashMap<>();
@@ -296,7 +319,7 @@ public class SpeciesNetworkServiceImpl implements SpeciesNetworkService {
         return scoreOfMap;
     }
 
-        public List<Message> getDeadEndMetaboliteInOneSpecies(String path, String speciesId) throws IOException {
+    public List<Message> getDeadEndMetaboliteInOneSpecies(String path, String speciesId) throws IOException {
         Path completePath = pathService.createCompletePath(path);
         Map<String, List<Message>> map = new HashMap<>();
         SpeciesNetwork1 network = getArrayFromTxt(speciesId);

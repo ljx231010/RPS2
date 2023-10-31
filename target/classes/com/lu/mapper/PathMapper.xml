@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lu.mapper.PathMapper">
+    <resultMap id="PathSpeciesMap" type="pathSpecies">
+        <result column="all_species" property="pathSpecies"/>
+    </resultMap>
+    <select id="createCompletePath" resultType="path">
+
+    </select>
+    <select id="getPathSpeciesByPath" resultMap="PathSpeciesMap" parameterType="string">
+        select *
+        from path
+        where path like concat(#{path}, '-')
+    </select>
+</mapper>

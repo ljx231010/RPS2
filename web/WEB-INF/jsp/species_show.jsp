@@ -13,6 +13,7 @@
             font-weight: bold;
             text-align: center;
         }
+
         table thead {
             font-size: 19px;
             font-weight: bold;
@@ -20,37 +21,43 @@
         }
     </style>
 </head>
-<title>Species_Result</title>
+<title>Organism_Result</title>
 <body class="bg1">
 <%@include file="nav.jsp" %>
 <div class="ui center aligned container" style="margin-top: 5em; width: 75%; ">
     <h3 class="ui header">Current Pathway:&nbsp;&nbsp;${requestScope.get('path')}</h3>
-        <div class="field">
-            <select class="ui dropdown" id="select1" onchange="topChange()">
-                <option value="10">TOP 10</option>
-                <option value="20">TOP 20</option>
-                <option value="30">TOP 30</option>
-                <option value="50" selected>TOP 50</option>
-            </select>
-        </div>
-        <table class="ui celled table" id='t1' style="text-align: center;">
-            <thead>
+    <div class="field">
+        <select class="ui dropdown" id="select1" onchange="topChange()">
+            <option value="10">TOP 10</option>
+            <option value="20">TOP 20</option>
+            <option value="30">TOP 30</option>
+            <option value="50" selected>TOP 50</option>
+        </select>
+    </div>
+    <table class="ui celled table" id='t1' style="text-align: center;">
+        <thead>
+        <tr>
+            <th>Rank <span title="Host organism score rankings" style="cursor: help;" data-toggle="tooltip"
+                           data-placement="right">
+			<sup style="color:black;"><i class="question circle outline icon" aria-hidden="true"></i></sup></span></th>
+            <th>Host organism <span title="Recommended candidate host organism" style="cursor: help;" data-toggle="tooltip"
+                                    data-placement="right">
+			<sup style="color:black;"><i class="question circle outline icon" aria-hidden="true"></i></sup></span></th>
+            <th>Score <span title="Host organism score" style="cursor: help;" data-toggle="tooltip"
+                            data-placement="right">
+			<sup style="color:black;"><i class="question circle outline icon" aria-hidden="true"></i></sup></span></th>
+            <th>Detail <span title="Click to view pathway details" style="cursor: help;" data-toggle="tooltip"
+                             data-placement="right">
+			<sup style="color:black;"><i class="question circle outline icon" aria-hidden="true"></i></sup></span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:if test="${requestScope.get('keyValues')==null}">
             <tr>
-                <th>Rank <span title="Recommended candidate species" style="cursor: help;" data-toggle="tooltip"
-                               data-placement="right">
-			<sup style="color:black;"><i class="question circle outline icon" aria-hidden="true"></i></sup></span></th>
-                <th>Host organism <span title="Species score ranking" style="cursor: help;" data-toggle="tooltip"
-                                  data-placement="right">
-			<sup style="color:black;"><i class="question circle outline icon" aria-hidden="true"></i></sup></span></th>
-                <th>Score <span title="Species score" style="cursor: help;" data-toggle="tooltip"
-                                data-placement="right">
-			<sup style="color:black;"><i class="question circle outline icon" aria-hidden="true"></i></sup></span></th>
-                <th>Detail <span title="Click to view path details" style="cursor: help;" data-toggle="tooltip"
-                                 data-placement="right">
-			<sup style="color:black;"><i class="question circle outline icon" aria-hidden="true"></i></sup></span></th>
+                <td colspan="4">${requestScope.get('message')}</td>
             </tr>
-            </thead>
-            <tbody>
+        </c:if>
+        <c:if test="${requestScope.get('keyValues')!=null}">
             <c:forEach var="kv" items="${requestScope.get('keyValues')}" end="49" varStatus="kvStatus">
                 <tr id="tr${kvStatus.count}">
                     <td>${kvStatus.count}</td>
@@ -63,8 +70,10 @@
                     </td>
                 </tr>
             </c:forEach>
-            </tbody>
-        </table>
+        </c:if>
+
+        </tbody>
+    </table>
 
 
 </div>

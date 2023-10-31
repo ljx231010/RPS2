@@ -17,4 +17,6 @@ public interface PathService {
     Map<String, String> getCompoundIdToName(String path);
 
     Map<String, String> getReactionIdToName(String path);
+
+    Reaction getReactionById(String id);
 }

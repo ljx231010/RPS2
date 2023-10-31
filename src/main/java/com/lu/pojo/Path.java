@@ -8,11 +8,21 @@ import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Path {
-    private ArrayList<Reaction> reactionsOfPath = new ArrayList<>();
-    private ArrayList<String> reactionNameOfPath = new ArrayList<>();
-    private ArrayList<Compound> compoundsOfPath = new ArrayList<>();
+    private ArrayList<Reaction> reactionsOfPath;
+    private ArrayList<String> reactionNameOfPath;
+    private ArrayList<Compound> compoundsOfPath;
+//    private ArrayList<String> message;
+//
+//    public void addMessage(String s) {
+//        this.message.add(s);
+//    }
+
+    public Path() {
+        this.reactionsOfPath = new ArrayList<>();
+        this.reactionNameOfPath = new ArrayList<>();
+        this.compoundsOfPath = new ArrayList<>();
+    }
 
     @Override
     public String toString() {
@@ -36,7 +46,7 @@ public class Path {
             }
             i++;
         }
-        sb.delete(sb.length()-2,sb.length());
+        sb.delete(sb.length() - 2, sb.length());
         return sb.toString();
     }
 }

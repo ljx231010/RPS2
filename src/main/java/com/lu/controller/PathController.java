@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,17 +40,19 @@ public class PathController {
         return "hello";
     }
 
-    @RequestMapping("/pathMain")
-    public String pathMain(Model model, String path,  Double inOut, Double subAndProduct, Double compete) throws IOException {
+    @RequestMapping(value = "/pathMain")
+    public String pathMain(Model model, String path, Double inOut, Double subAndProduct, Double compete) throws IOException {
         System.out.println("pathcontroller + pathMain");
         System.out.println(path);
         model.addAttribute("path", path);
-        path = path.replace(" ","");
+        path = path.replace(" ", "");
         System.out.println(inOut);
         System.out.println(subAndProduct);
         System.out.println(compete);
         List<KeyValue> keyValues = speciesNetworkService.calculateScoreOfSpecies(path, inOut, subAndProduct, compete);
-        System.out.println(keyValues);
+        String message = "There is a problem between the compound and the reaction,please return for inspection.";
+        if (keyValues == null)
+            model.addAttribute("message", message);
         model.addAttribute("keyValues", keyValues);
 
         List<Species> allSpecies = speciesNetworkService.getAllSpecies();
@@ -60,5 +64,4 @@ public class PathController {
 
         return "species_show";
     }
-
 }
