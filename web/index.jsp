@@ -253,11 +253,20 @@
         console.log(document.getElementById("inOut").value);
         console.log(document.getElementById("subAndProduct").value);
         console.log(document.getElementById("compete").value);
+        var subAndProduct = document.getElementById("subAndProduct").value;
+        var inout = document.getElementById("inOut").value;
+        var compete = document.getElementById("compete").value;
+
+        var patternNum = new RegExp("^\\d+(\\.\\d+)?$");
         if (document.getElementById("path").value === null) {
             Notiflix.Report.failure('Path Failure', 'The input of path is blank, please enter', 'Okay');
             return;
         }
-        if (document.getElementById("subAndProduct").value === "" || document.getElementById("subAndProduct").value === "" || document.getElementById("compete").value === "") {
+        if (subAndProduct === "" || inout === "" || compete === "") {
+            Notiflix.Report.failure('parameter Failure', 'Parameter error, check and confirm them as a number', 'Okay');
+            return;
+        }
+        if (!patternNum.test(subAndProduct)||!patternNum.test(inout)||!patternNum.test(compete)){
             Notiflix.Report.failure('parameter Failure', 'Parameter error, check and confirm them as a number', 'Okay');
             return;
         }

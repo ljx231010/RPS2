@@ -78,7 +78,7 @@
         <tr>
             <td>AFP</td>
             <td>Atom-group Flux Pathfinder</td>
-            <td>Engineer</td>
+            <td>---</td>
             <td>
                 <button class="ui button" onclick="window.open('https://biolab.gxu.edu.cn/AF/index.jsp')">Search</button>
             </td>

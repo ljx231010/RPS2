@@ -73,6 +73,9 @@
         <p>No result is found in the current method. Please try another method</p>
     </c:if>
 
+    <button class="ui button" style="text-align: center;"><a href="${pageContext.request.contextPath}/index.jsp">home</a></button>
+
+
 </div>
 <br>
 <br>
